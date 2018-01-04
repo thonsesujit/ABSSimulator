@@ -14,9 +14,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.stage.Stage;
 
-public class MainController extends VehicleSpeed{
-	@FXML private RadioButton rb1;
-	@FXML private RadioButton rb2;
+public class MainController {
+	@FXML private RadioButton abson;
+	@FXML private RadioButton absoff;
 	@FXML private Label lb1;
 	@FXML LineChart<String, Number> lineChart;
 	@FXML private Button set1;
@@ -60,6 +60,7 @@ public class MainController extends VehicleSpeed{
 			
 			output = miniPID.getOutput(actual, target);
 			actual = actual + output;
+		 
 			
 			String strj = Integer.toString(j);//this is not used for the timebeing.
 			series.getData().add(new XYChart.Data<String, Number>(strj, actual));
@@ -104,15 +105,17 @@ public class MainController extends VehicleSpeed{
 		
 		
 	}
+
 	
+	// code to ABS on and ABS off selection. This has to be linked to ABS on or ABS off interface
 	public void radioSelect(ActionEvent event) {
 		String message = "";
-		if (rb1.isSelected()) {
-			message += rb1.getText() + "\n";
+		if (abson.isSelected()) {
+			message += abson.getText() + "\n";
 			
 		}
-		if (rb2.isSelected()) {
-			message += rb2.getText() + "\n";
+		if (absoff.isSelected()) {
+			message += absoff.getText() + "\n";
 			
 		}
 		lb1.setText(message);

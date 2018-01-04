@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="500.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainController">
+<AnchorPane prefHeight="673.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainController">
    <children>
       <VBox layoutX="31.0" layoutY="154.0" prefHeight="200.0" prefWidth="100.0">
          <children>
@@ -24,15 +24,15 @@
       <Label fx:id="lb1" layoutX="31.0" layoutY="62.0" prefHeight="50.0" prefWidth="153.0" />
       <HBox prefHeight="39.0" prefWidth="1000.0">
          <children>
-            <RadioButton fx:id="rb1" mnemonicParsing="false" onAction="#radioSelect" selected="true" text="ABS ON">
+            <RadioButton fx:id="abson" mnemonicParsing="false" onAction="#radioSelect" selected="true" text="ABS ON">
                <toggleGroup>
                   <ToggleGroup fx:id="ABSselect" />
                </toggleGroup>
             </RadioButton>
-            <RadioButton fx:id="rb2" mnemonicParsing="false" onAction="#radioSelect" text="ABS OFF" toggleGroup="$ABSselect" />
+            <RadioButton fx:id="absoff" mnemonicParsing="false" onAction="#radioSelect" text="ABS OFF" toggleGroup="$ABSselect" />
          </children>
       </HBox>
-      <LineChart fx:id="lineChart" layoutX="338.0" layoutY="24.0" prefHeight="452.0" prefWidth="635.0" title="Vehicle Speed &amp; Wheel Speed">
+      <LineChart fx:id="lineChart" disable="true" layoutX="338.0" layoutY="24.0" prefHeight="452.0" prefWidth="635.0" title="Vehicle Speed &amp; Wheel Speed">
         <xAxis>
           <CategoryAxis fx:id="X" side="BOTTOM" /> 
         </xAxis>
