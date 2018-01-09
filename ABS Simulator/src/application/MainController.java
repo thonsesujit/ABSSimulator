@@ -58,7 +58,13 @@ public class MainController {
 		
 		
 		XYChart.Series<String, Number> series =new XYChart.Series<String, Number>();
-		for (int i = 0 , j = 0 ; i < 100; i++ ,j++){
+     
+		
+		for (int i = 0 , j = 0 ; i < 200; i++ ,j++){
+			
+			if (i == 99)
+				target = 60;
+			
 			
 			output = miniPID.getOutput(actual, target);
 			actual = actual + output;
@@ -69,42 +75,38 @@ public class MainController {
 			
 		
 		lineChart.getData().addAll(series);
-			
+		   lineChart.setCreateSymbols(false);
 		}
 		
 	}
 	
 	
 	public void brake(ActionEvent event) {
-		MiniPID miniPID;
-		miniPID = new MiniPID(0.25, 0.01, 0.4);
-		miniPID.setOutputLimits(10);
-		miniPID.setMaxIOutput(2);
-		miniPID.setOutputRampRate(3);
-		miniPID.setOutputFilter(.3);
-		double target=0;
-		double actual=100;
-		double output=0;
 		
-		miniPID.setSetpoint(0);
-		miniPID.setSetpoint(target);
-		
-		AnimatedLineChart animatedLineChart;
-		anmimatedLineChart.dataQ1 = 
-		
-		
-		XYChart.Series<String, Number> series =new XYChart.Series<String, Number>();
+		XYChart.Series<String, Number> series1 = new XYChart.Series<>();
+		XYChart.Series<String, Number> series2 = new XYChart.Series<>();
+		//XYChart.Series<String, Number> series =new XYChart.Series<String, Number>();
 		for (int i = 0 , j = 100 ; i < 100; i++ ,j++){
 			
-			output = miniPID.getOutput(actual, target);
-			actual = actual + output;
 			
 			String strj = Integer.toString(j);//this is not used for the timebeing.
-			series.getData().add(new XYChart.Data<String, Number>(strj, actual));
+			//series.getData().add(new XYChart.Data<String, Number>(strj, actual));
+			series1.getData().add(new XYChart.Data<>(strj, j));
+			series2.getData().add(new XYChart.Data<>(strj, j));
+		
 			
 		
-		lineChart.getData().addAll(series);
-			
+        lineChart.setAnimated(false);
+        lineChart.setTitle("Animated Line Chart");
+        lineChart.setHorizontalGridLinesVisible(true);
+
+        // Set Name for Series
+        series1.setName("Vehicle Speed");
+        series2.setName("Wheel Speed With ABS");
+      
+
+        // Add Chart Series
+        lineChart.getData().addAll(series1, series2);
 		}
 		
 		
