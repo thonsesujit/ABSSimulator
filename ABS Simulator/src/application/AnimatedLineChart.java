@@ -22,9 +22,9 @@ public class AnimatedLineChart extends Application {
     private XYChart.Series<Number, Number> series2 = new XYChart.Series<>();
     private XYChart.Series<Number, Number> series3 = new XYChart.Series<>();
     private ExecutorService executor;
-    private ConcurrentLinkedQueue<Number> dataQ1 = new ConcurrentLinkedQueue<>();
-    private ConcurrentLinkedQueue<Number> dataQ2 = new ConcurrentLinkedQueue<>();
-    private ConcurrentLinkedQueue<Number> dataQ3 = new ConcurrentLinkedQueue<>();
+    public ConcurrentLinkedQueue<Number> dataQ1 = new ConcurrentLinkedQueue<>();
+    public ConcurrentLinkedQueue<Number> dataQ2 = new ConcurrentLinkedQueue<>();
+    public ConcurrentLinkedQueue<Number> dataQ3 = new ConcurrentLinkedQueue<>();
 
     private NumberAxis xAxis;
 

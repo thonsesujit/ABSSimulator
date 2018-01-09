@@ -22,9 +22,11 @@ public class MainController {
 	@FXML private Button set1;
 	@FXML private Button gas;
 	@FXML private Button brake;
-    @FXML private CategoryAxis X;
-
-    @FXML private NumberAxis Y;
+//    @FXML private CategoryAxis X;
+//
+//    @FXML private NumberAxis Y;
+//    
+    
 	public void set1(ActionEvent event) throws Exception {
 		String message1 ="Setting";
 				lb1.setText(message1);
@@ -86,6 +88,9 @@ public class MainController {
 		
 		miniPID.setSetpoint(0);
 		miniPID.setSetpoint(target);
+		
+		AnimatedLineChart animatedLineChart;
+		anmimatedLineChart.dataQ1 = 
 		
 		
 		XYChart.Series<String, Number> series =new XYChart.Series<String, Number>();
