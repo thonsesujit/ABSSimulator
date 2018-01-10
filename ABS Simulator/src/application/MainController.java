@@ -1,6 +1,7 @@
 package application;
 
 import javafx.event.ActionEvent;
+import java.lang.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -22,6 +23,7 @@ public class MainController {
 	@FXML private Button set1;
 	@FXML private Button gas;
 	@FXML private Button brake;
+	@FXML LineChart<String, Number> lineChart1;
 //    @FXML private CategoryAxis X;
 //
 //    @FXML private NumberAxis Y;
@@ -44,11 +46,11 @@ public class MainController {
 	//MiniPID class is used to simulate acceleration temperoraly. This will be replaced with model when the 'model class' is programed by Panda.
 	public void gas(ActionEvent event) {
 		MiniPID miniPID;
-		miniPID = new MiniPID(0.25, 0.01, 0.4);
-		miniPID.setOutputLimits(10);
-		miniPID.setMaxIOutput(2);
-		miniPID.setOutputRampRate(3);
-		miniPID.setOutputFilter(.3);
+		miniPID = new MiniPID(0.05, 0.001, 0);
+		//miniPID.setOutputLimits(10);
+		//miniPID.setMaxIOutput(2);
+		//miniPID.setOutputRampRate(10);
+		//miniPID.setOutputFilter(.3);
 		double target=100;
 		double actual=0;
 		double output=0;
@@ -57,61 +59,131 @@ public class MainController {
 		miniPID.setSetpoint(target);
 		
 		
-		XYChart.Series<String, Number> series =new XYChart.Series<String, Number>();
-     
-		
-		for (int i = 0 , j = 0 ; i < 200; i++ ,j++){
-			
-			if (i == 99)
-				target = 60;
-			
-			
-			output = miniPID.getOutput(actual, target);
-			actual = actual + output;
-		 
-			
-			String strj = Integer.toString(j);//this is not used for the timebeing.
-			series.getData().add(new XYChart.Data<String, Number>(strj, actual));
-			
-		
-		lineChart.getData().addAll(series);
-		   lineChart.setCreateSymbols(false);
-		}
-		
-	}
-	
-	
-	public void brake(ActionEvent event) {
 		
 		XYChart.Series<String, Number> series1 = new XYChart.Series<>();
 		XYChart.Series<String, Number> series2 = new XYChart.Series<>();
 		//XYChart.Series<String, Number> series =new XYChart.Series<String, Number>();
-		for (int i = 0 , j = 100 ; i < 100; i++ ,j++){
-			
-			
-			String strj = Integer.toString(j);//this is not used for the timebeing.
-			//series.getData().add(new XYChart.Data<String, Number>(strj, actual));
-			series1.getData().add(new XYChart.Data<>(strj, j));
-			series2.getData().add(new XYChart.Data<>(strj, j));
+     
 		
+		for (int i = 0 , j = 0 ; i < 200; i++ ,j++){
+			int q;
 			
-		
-        lineChart.setAnimated(false);
-        lineChart.setTitle("Animated Line Chart");
-        lineChart.setHorizontalGridLinesVisible(true);
-
-        // Set Name for Series
-        series1.setName("Vehicle Speed");
-        series2.setName("Wheel Speed With ABS");
-      
-
-        // Add Chart Series
-        lineChart.getData().addAll(series1, series2);
+			if ( i < 100 ) {
+				output = miniPID.getOutput(actual, target);
+				actual = actual + output;
+				q= (int) actual;
+				
+				String strj = Integer.toString(j);//this is not used for the timebeing.
+				//series.getData().add(new XYChart.Data<String, Number>(strj, actual));
+				series1.getData().add(new XYChart.Data<>(strj, actual));
+				series2.getData().add(new XYChart.Data<>(strj, q));
+			
+			lineChart.getData().addAll(series1,series2);
+			   lineChart.setCreateSymbols(false);
+					
+			}
+			
+			if(i == 100 )
+				target = 20;
+			
+			if ( i > 100 ) {
+				
+				if(i == 100 )
+					target = 20;
+				
+				output = miniPID.getOutput(actual, target);
+				actual = actual + output;
+				q= (int) actual;
+				
+				String strj = Integer.toString(j);//this is not used for the timebeing.
+				//series.getData().add(new XYChart.Data<String, Number>(strj, actual));
+				series1.getData().add(new XYChart.Data<>(strj, actual));
+				series2.getData().add(new XYChart.Data<>(strj, Math.cos(q) ));
+			
+			lineChart.getData().addAll(series1,series2);
+			   lineChart.setCreateSymbols(false);
+		        series1.setName("Vehicle Speed");
+		        series2.setName("Wheel Speed");
+			}
+			
+	
+			
 		}
 		
+	}
+	
+	
+
+	public void brake(ActionEvent event) {
 		
+		MiniPID miniPID1;
+		miniPID1 = new MiniPID(0.05, 0.001, 0);
+		//miniPID.setOutputLimits(10);
+		//miniPID.setMaxIOutput(2);
+		//miniPID.setOutputRampRate(3);
+		//miniPID.setOutputFilter(.3);
+		double target=100;
+		double actual=0;
+		double output=0;
+		
+		miniPID1.setSetpoint(0);
+		miniPID1.setSetpoint(target);
+		
+		
+		
+		XYChart.Series<String, Number> series1 = new XYChart.Series<>();
+		XYChart.Series<String, Number> series2 = new XYChart.Series<>();
+		//XYChart.Series<String, Number> series =new XYChart.Series<String, Number>();
+     
+		
+		for (int i = 0 , j = 0 ; i < 200; i++ ,j++){
+			int q;
+			
+			if ( i < 100 ) {
+				output = miniPID1.getOutput(actual, target);
+				actual = actual + output;
+				q= (int) actual;
+				
+				String strj = Integer.toString(j);//this is not used for the timebeing.
+				//series.getData().add(new XYChart.Data<String, Number>(strj, actual));
+				series1.getData().add(new XYChart.Data<>(strj, actual));
+				series2.getData().add(new XYChart.Data<>(strj, q));
+			
+			lineChart.getData().addAll(series1,series2);
+			   lineChart.setCreateSymbols(false);
+					
+			}
+			
+			if(i == 100 )
+				target = 20;
+			
+			if ( i > 100 ) {
+				
+				if(i == 100 )
+					target = 20;
+				
+				output = miniPID1.getOutput(actual, target);
+				actual = actual + output;
+				q= (int) actual;
+				
+				String strj = Integer.toString(j);//this is not used for the timebeing.
+				//series.getData().add(new XYChart.Data<String, Number>(strj, actual));
+				series1.getData().add(new XYChart.Data<>(strj, actual));
+				series2.getData().add(new XYChart.Data<>(strj, q^2 ));
+			
+			lineChart1.getData().addAll(series1,series2);
+			   lineChart1.setCreateSymbols(false);
+		        series1.setName("Vehicle Speed");
+		        series2.setName("Wheel Speed");
+			}
+			
+	
+			
+		}
 		
 	}
+		
+	
 
 	
 	// code to ABS on and ABS off selection. This has to be linked to ABS on or ABS off interface

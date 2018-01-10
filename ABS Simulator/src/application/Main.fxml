@@ -12,18 +12,29 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="673.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainController">
    <children>
-      <HBox AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="0.0">
+      <HBox layoutX="15.0" layoutY="3.0" prefHeight="50.0" prefWidth="990.0" AnchorPane.bottomAnchor="642.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-2.0">
          <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="36.0" prefWidth="993.0" text="ABS Simulator" textFill="#870e0e" wrapText="true">
+            <Label alignment="CENTER" contentDisplay="RIGHT" prefHeight="36.0" prefWidth="988.0" text="ABS Simulator" textFill="#870e0e" wrapText="true">
                <font>
                   <Font name="System Bold" size="25.0" />
                </font>
+               <graphic>
+                  <ImageView fitHeight="31.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/Antilock_Braking_System.svg.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
             </Label>
          </children>
       </HBox>
@@ -31,7 +42,7 @@
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="158.0" prefWidth="65.0">
                <children>
-                  <HBox prefHeight="39.0" prefWidth="1000.0">
+                  <HBox prefHeight="39.0" prefWidth="291.0">
                      <children>
                         <RadioButton fx:id="abson" mnemonicParsing="false" onAction="#radioSelect" selected="true" text="ABS ON">
                            <toggleGroup>
@@ -46,25 +57,48 @@
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </padding>
                         </RadioButton>
+                        <Label fx:id="lb1" prefHeight="50.0" prefWidth="118.0" />
                      </children>
                   </HBox>
-                  <VBox layoutX="4.0" layoutY="126.0" prefHeight="113.0" prefWidth="96.0">
+                  <VBox layoutX="4.0" layoutY="126.0" prefHeight="113.0" prefWidth="134.0">
                      <children>
-                        <Button fx:id="gas" mnemonicParsing="false" onAction="#gas" onKeyPressed="#gas" prefHeight="32.0" prefWidth="102.0" text="Accelerator" />
-                        <Button fx:id="brake" mnemonicParsing="false" onAction="#brake" prefHeight="32.0" prefWidth="101.0" text="Brake" />
-                        <Button fx:id="set1" mnemonicParsing="false" onAction="#set1" prefHeight="40.0" prefWidth="100.0" text="Setting" />
+                        <Button fx:id="gas" mnemonicParsing="false" onAction="#gas" onKeyPressed="#gas" prefHeight="50.0" prefWidth="134.0" text="ABS OFF Simulation" />
+                        <Button fx:id="brake" mnemonicParsing="false" onAction="#brake" prefHeight="50.0" prefWidth="138.0" text="ABS  ON Simulation" />
+                        <Button fx:id="set1" mnemonicParsing="false" onAction="#set1" prefHeight="50.0" prefWidth="136.0" text="Setting" />
                      </children>
                   </VBox>
-                  <ImageView fitHeight="117.0" fitWidth="134.0" layoutX="127.0" layoutY="215.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="117.0" fitWidth="134.0" layoutX="155.0" layoutY="76.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../img/moving.gif" />
                      </image>
                   </ImageView>
-                  <HBox layoutX="15.0" layoutY="39.0" prefHeight="68.0" prefWidth="179.0">
+                  <Text fill="#1746c2" layoutX="52.0" layoutY="376.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Vehicle Parameter">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Text>
+                  <GridPane layoutX="52.0" layoutY="405.0" prefHeight="113.0" prefWidth="179.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
                      <children>
-                        <Label fx:id="lb1" prefHeight="50.0" prefWidth="153.0" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Start speed(Km/h)" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Final speed(Km/hr)" GridPane.rowIndex="1" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Time used(s)" GridPane.rowIndex="2" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="mass of the object(kg)" GridPane.rowIndex="3" />
+                        <Label text="Label" GridPane.columnIndex="1" />
+                        <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                      </children>
-                  </HBox>
+                  </GridPane>
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
