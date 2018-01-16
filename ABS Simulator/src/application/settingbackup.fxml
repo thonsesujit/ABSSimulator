@@ -10,11 +10,10 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PIDTune">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <SplitPane dividerPositions="0.23411371237458195" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
@@ -40,19 +39,15 @@
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="P" />
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="I" GridPane.rowIndex="1" />
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="D" GridPane.rowIndex="2" />
-                        <TextField fx:id="tf1" prefHeight="25.0" prefWidth="38.0" text="1" GridPane.columnIndex="1" />
-                        <TextField fx:id="tf2" prefHeight="25.0" prefWidth="38.0" text="0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <TextField fx:id="tf3" prefHeight="25.0" prefWidth="38.0" text="0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <TextField fx:id="tf1" prefHeight="25.0" prefWidth="38.0" GridPane.columnIndex="1" />
+                        <TextField fx:id="tf2" prefHeight="25.0" prefWidth="38.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <TextField fx:id="tf3" prefHeight="25.0" prefWidth="38.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Target" GridPane.rowIndex="3" />
-                        <TextField fx:id="tf4" prefHeight="25.0" prefWidth="38.0" text="100" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <TextField fx:id="tf4" prefHeight="25.0" prefWidth="38.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                      </children>
                   </GridPane>
-                  <VBox layoutX="17.0" layoutY="236.0">
-                     <children>
-                        <Button fx:id="Play" mnemonicParsing="false" onAction="#Play" prefHeight="30.0" prefWidth="70.0" text="Play" VBox.vgrow="NEVER" />
-                        <Button fx:id="Reset" mnemonicParsing="false" onAction="#Reset" prefHeight="30.0" prefWidth="70.0" text="Reset" />
-                     </children>
-                  </VBox>
+                  <Button fx:id="play" layoutX="17.0" layoutY="236.0" mnemonicParsing="false" onAction="#play" prefHeight="25.0" prefWidth="69.0" text="Play" />
+                  <Button fx:id="reset" layoutX="22.0" layoutY="273.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0" text="Reset" />
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="398.0" prefWidth="440.0">
