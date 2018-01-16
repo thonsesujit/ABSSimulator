@@ -12,6 +12,7 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -54,22 +55,12 @@ public class MainController {
 		String message="Simulating ABSOFF";
 		lb1.setText(message);
 		
-		
-		
-		MiniPID miniPID1;
-		miniPID1 = new MiniPID(0.05, 0.0, 0);
-		//miniPID.setOutputLimits(10);
-		//miniPID.setMaxIOutput(2);
-		//miniPID.setOutputRampRate(3);
-		//miniPID.setOutputFilter(.3);
+		lineChart.getData().removeAll();
+	
 		double target=0;
-		double actual= Double.parseDouble(tf10.getText()); //Vehicle speed
+		double actual = Double.parseDouble(tf10.getText()); //Vehicle speed
 		double output=0;
-		
-		miniPID1.setSetpoint(0);
-		miniPID1.setSetpoint(target);
-		
-		
+		double j = actual;
 		
 		XYChart.Series<String, Number> series1 = new XYChart.Series<>();
 		XYChart.Series<String, Number> series2 = new XYChart.Series<>();
@@ -77,28 +68,25 @@ public class MainController {
 		series1.setName("Vehicle Speed");
         series2.setName("Wheel Speed");
         lineChart.setCreateSymbols(false);
-		//XYChart.Series<String, Number> series =new XYChart.Series<String, Number>();
-     
+	    
 		
-		for (int i = 0 , j = 0 ; i < 200; i++ ,j++){
+		for (int i = 0  ; i < 200; i++){
 			double r = 0; 
 			double s = Double.parseDouble(tf11.getText()); //Wheel Slip
 			r= actual-(s*actual);
 		
-				output = miniPID1.getOutput(actual, target);
-				actual = actual + output;
-				
-				
-				String strj = Integer.toString(j);//this is not used for the timebeing.
-				//series.getData().add(new XYChart.Data<String, Number>(strj, actual));
-				series1.getData().add(new XYChart.Data<>(strj, actual));
-				series2.getData().add(new XYChart.Data<>(strj, r));
-			
-			
-			   
 					
-				
-			
+				if (j != 0) {
+				j = j--;
+				}
+				double sd ;
+				sd = (actual *actual)/(0.6*9.8*2) ;
+						
+				String strj = Double.toString(sd);//this is not used for the timebeing.
+				//series.getData().add(new XYChart.Data<String, Number>(strj, actual));
+				series1.getData().add(new XYChart.Data<>(strj, j));
+				series2.getData().add(new XYChart.Data<>(strj, j));
+		
 		        
 			}
 		

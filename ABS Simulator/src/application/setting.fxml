@@ -40,9 +40,9 @@
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="P" />
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="I" GridPane.rowIndex="1" />
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="D" GridPane.rowIndex="2" />
-                        <TextField fx:id="tf1" prefHeight="25.0" prefWidth="38.0" text="1" GridPane.columnIndex="1" />
-                        <TextField fx:id="tf2" prefHeight="25.0" prefWidth="38.0" text="0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <TextField fx:id="tf3" prefHeight="25.0" prefWidth="38.0" text="0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <TextField fx:id="tf1" prefHeight="25.0" prefWidth="38.0" text="0.1" GridPane.columnIndex="1" />
+                        <TextField fx:id="tf2" prefHeight="25.0" prefWidth="38.0" text="0.005" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <TextField fx:id="tf3" prefHeight="25.0" prefWidth="38.0" text="0.001" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Target" GridPane.rowIndex="3" />
                         <TextField fx:id="tf4" prefHeight="25.0" prefWidth="38.0" text="100" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                      </children>
