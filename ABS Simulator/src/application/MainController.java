@@ -56,83 +56,6 @@ public class MainController {
 		
 		
 		
-		
-		
-		MiniPID miniPID;
-		miniPID = new MiniPID(0.1, 0.001, 0);
-		MiniPID miniPID2;
-		miniPID2 = new MiniPID(0.03, 0, 0);
-		miniPID.setOutputLimits(0);
-		miniPID.setMaxIOutput(2);
-		//miniPID.setOutputRampRate(10);
-		//miniPID.setOutputFilter(.3);
-		double target=100;
-		double actual=0;
-		double output=0;
-		
-		miniPID.setSetpoint(0);
-		miniPID.setSetpoint(target);
-		
-		
-		
-		XYChart.Series<String, Number> series1 = new XYChart.Series<>();
-		XYChart.Series<String, Number> series2 = new XYChart.Series<>();
-		//XYChart.Series<String, Number> series =new XYChart.Series<String, Number>();
-        series1.setName("Vehicle Speed with gas");
-        series2.setName("Wheel Speed with gas");
-
-		lineChart.getData().addAll(series1,series2);
-		   lineChart.setCreateSymbols(false);
-        
-		for (int i = 0 , j = 0 ; i < 200; i++ ,j++){
-			int q;
-			
-			if ( i < 100 ) {
-				output = miniPID.getOutput(actual, target);
-				actual = actual + output;
-				q= (int) actual;
-				
-				String strj = Integer.toString(j);//this is not used for the timebeing.
-				//series.getData().add(new XYChart.Data<String, Number>(strj, actual));
-				series1.getData().add(new XYChart.Data<>(strj, actual));
-				series2.getData().add(new XYChart.Data<>(strj, q));
-			
-
-					
-			}
-			if(i == 100 )
-				target = 0;
-		
-			if ( i > 100 ) {
-				
-				
-				output = miniPID.getOutput(actual, target);
-				actual = actual + output;
-				q= (int) actual;
-				
-				String strj = Integer.toString(j);//this is not used for the timebeing.
-				//series.getData().add(new XYChart.Data<String, Number>(strj, actual));
-				series1.getData().add(new XYChart.Data<>(strj, actual));
-				series2.getData().add(new XYChart.Data<>(strj, Math.abs(q - 2*q)));
-			
-		
-
-			}
-			
-	
-			
-		}
-		
-	}
-	
-	
-
-	public void brake(ActionEvent event) {
-		String message="Simulating ABSON";
-		lb1.setText(message);
-/*		System.out.println(new ABS().calculate());
-		ABS a = new ABS();
-		Object aa = new ABS().calculate();*/
 		MiniPID miniPID1;
 		miniPID1 = new MiniPID(0.05, 0.0, 0);
 		//miniPID.setOutputLimits(10);
@@ -140,7 +63,7 @@ public class MainController {
 		//miniPID.setOutputRampRate(3);
 		//miniPID.setOutputFilter(.3);
 		double target=0;
-		double actual=110;
+		double actual= Double.parseDouble(tf10.getText()); //Vehicle speed
 		double output=0;
 		
 		miniPID1.setSetpoint(0);
@@ -150,60 +73,101 @@ public class MainController {
 		
 		XYChart.Series<String, Number> series1 = new XYChart.Series<>();
 		XYChart.Series<String, Number> series2 = new XYChart.Series<>();
-		lineChart1.getData().addAll(series1,series2);
+		lineChart.getData().addAll(series1,series2);
 		series1.setName("Vehicle Speed");
         series2.setName("Wheel Speed");
+        lineChart.setCreateSymbols(false);
 		//XYChart.Series<String, Number> series =new XYChart.Series<String, Number>();
      
 		
 		for (int i = 0 , j = 0 ; i < 200; i++ ,j++){
-			int q;
+			double r = 0; 
+			double s = Double.parseDouble(tf11.getText()); //Wheel Slip
+			r= actual-(s*actual);
 		
-			
-				
-				
-		
-			
 				output = miniPID1.getOutput(actual, target);
 				actual = actual + output;
-				q= (int) actual;
+				
 				
 				String strj = Integer.toString(j);//this is not used for the timebeing.
 				//series.getData().add(new XYChart.Data<String, Number>(strj, actual));
 				series1.getData().add(new XYChart.Data<>(strj, actual));
-				series2.getData().add(new XYChart.Data<>(strj, q-(0.2*q)));
+				series2.getData().add(new XYChart.Data<>(strj, r));
 			
 			
-			   lineChart1.setCreateSymbols(false);
+			   
 					
 				
 			
 		        
 			}
-			
-	
-			
-		}
 		
-	
-		
-	
-
-	
-	// code to ABS on and ABS off selection. This has to be linked to ABS on or ABS off interface
-	public void radioSelect(ActionEvent event) {
-		String message = "";
-		if (abson.isSelected()) {
-			message += abson.getText() + "\n";
-			
-		}
-		if (absoff.isSelected()) {
-			message += absoff.getText() + "\n";
-			
-		}
-		lb1.setText(message);
 	}
+	
+	
 
+	public void brake(ActionEvent event) {
+		String message="Simulating ABSON";
+		lb1.setText(message);
+		MiniPID miniPID1;
+		MiniPID miniPID2;
+		miniPID1 = new MiniPID(0.05, 0.0, 0);
+		miniPID2 = new MiniPID(0.01, 0.0, 0.0);
+		//miniPID.setOutputLimits(10);
+		//miniPID.setMaxIOutput(2);
+		//miniPID.setOutputRampRate(3);
+		//miniPID.setOutputFilter(.3);
+		double target=0;
+		double actual= Double.parseDouble(tf10.getText()); //Vehicle speed
+		double output=0;
+		double r = 0; 
+		double s = Double.parseDouble(tf11.getText()); //Wheel Slip
+		
+		
+		miniPID1.setSetpoint(0);
+		miniPID1.setSetpoint(target);
+		miniPID2.setSetpoint(0);
+		miniPID2.setSetpoint(output);
+		
+		
+		XYChart.Series<String, Number> series1 = new XYChart.Series<>();
+		XYChart.Series<String, Number> series2 = new XYChart.Series<>();
+		lineChart1.getData().addAll(series1,series2);
+		series1.setName("Vehicle Speed");
+        series2.setName("Wheel Speed");
+        lineChart1.setCreateSymbols(false);
+		//XYChart.Series<String, Number> series =new XYChart.Series<String, Number>();
+     
+		
+		for (int i = 0 , j = 0 ; i < 200; i++ ,j++){
+
+			miniPID2.setSetpoint(output);
+			double ctrlOP = r;
+			ctrlOP = miniPID2.getOutput(s,0);
+			r= actual-(ctrlOP*actual);
+			
+				output = miniPID1.getOutput(actual, target);
+				actual = actual + output;
+				
+				
+				String strj = Integer.toString(j);//this is not used for the timebeing.
+				//series.getData().add(new XYChart.Data<String, Number>(strj, actual));
+				series2.getData().add(new XYChart.Data<>(strj, ctrlOP+r));
+				series1.getData().add(new XYChart.Data<>(strj, actual));
+			
+			
+			
+			   
+					
+				
+			
+		        
+			}
+		
+			
+	
+			
+		}
 	
 		
 	}

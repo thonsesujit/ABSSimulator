@@ -49,7 +49,7 @@
                         <Button fx:id="set1" mnemonicParsing="false" onAction="#set1" prefHeight="50.0" prefWidth="136.0" text="Setting" />
                      </children>
                   </VBox>
-                  <Text fill="#1746c2" layoutX="52.0" layoutY="376.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Vehicle Parameter">
+                  <Text fill="#1746c2" layoutX="52.0" layoutY="363.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Vehicle Parameters" wrappingWidth="114.865234375">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
@@ -68,12 +68,8 @@
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Start speed(Km/h)" />
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Slip Ratio" GridPane.rowIndex="1" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Time used(s)" GridPane.rowIndex="2" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="mass of the object(kg)" GridPane.rowIndex="3" />
-                        <TextField fx:id="tf10" prefHeight="25.0" prefWidth="59.0" GridPane.columnIndex="1" />
-                        <TextField fx:id="tf101" prefHeight="25.0" prefWidth="59.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <TextField fx:id="tf102" prefHeight="25.0" prefWidth="59.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <TextField fx:id="tf103" prefHeight="25.0" prefWidth="59.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <TextField fx:id="tf10" prefHeight="25.0" prefWidth="59.0" promptText="100" text="100" GridPane.columnIndex="1" />
+                        <TextField fx:id="tf11" prefHeight="25.0" prefWidth="59.0" promptText="0.5" text="0.5" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                      </children>
                   </GridPane>
                   <Label fx:id="lb1" layoutX="1.0" layoutY="39.0" prefHeight="57.0" prefWidth="275.0" />
