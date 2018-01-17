@@ -23,7 +23,7 @@ public class MainController {
 	
 	@FXML private RadioButton abson;
 	@FXML private RadioButton absoff;
-	@FXML private Label lb1 , lb2;
+	@FXML private Label lb1 , lb2 , lb3, lb4;
 	@FXML LineChart<String, Number> lineChart;
 	@FXML private Button set1;
 	@FXML private Button gas;
@@ -34,8 +34,19 @@ public class MainController {
 
 	@FXML LineChart<String, Number> lineChart1;
 
-// User variables
-	boolean carOn = false;
+	//User Variables*************************************************************
+	double FL_BrakeP = 0.0;
+	double FL_WheelVelo = 0.0;
+	double vehicleVelocity =0.0;
+	double FL_Decel = 0.0;
+	double FL_Threshold = 0.0;
+	boolean FL_pressureRelease = false;
+	boolean carOn = false; 
+	tf10 = new TextField();
+	int xaxis = 0;
+	
+	//**************************************************************************
+	
     
     
 	public void set1(ActionEvent event) throws Exception {
@@ -67,30 +78,25 @@ public class MainController {
         lineChart.setCreateSymbols(false);
 	
 		
-		
-		//User Variables*************************************************************
-		double FL_BrakeP = 0.0;
-		double FL_WheelVelo = 0.0;
-		double vehicleVelocity =0.0;
-		double FL_Decel = 0.0;
-		double FL_Threshold = 0.0;
-		boolean FL_pressureRelease = false;
-		boolean carOn = true;
-		tf10 = new TextField();
-		int xaxis = 0;
-		//**************************************************************************
-		
-		tf10.setText("200");
+        boolean carOn = false; 
 
 		
+		//Initializing***********
 		
-		while(FL_WheelVelo >= 0) {
-		
-		
+		tf10.setText("200");
+		vehicleVelocity = Double.parseDouble(tf10.getText().trim());
+		//***********************************
+		run();
+
+	}
+	
+	public void calculate() {
+			
+			
 		vehicleVelocity = Double.parseDouble(tf10.getText().trim());
 		
 		FL_WheelVelo = vehicleVelocity;
-		FL_Threshold = Double.parseDouble(tf11.getText().trim());
+		FL_Threshold = 1.5;//Double.parseDouble(tf11.getText().trim());
 		FL_BrakeP = 100/100;
 		FL_Decel = 3*FL_BrakeP;
 		if (FL_Decel > FL_Threshold)
@@ -104,18 +110,23 @@ public class MainController {
 		FL_WheelVelo -= (FL_Decel * .1 * 3.6);
 		xaxis++;
 		String strj = Integer.toString(xaxis);
-		series1.getData().add(new XYChart.Data<>(strj, 100));
+		series1.getData().add(new XYChart.Data<>(strj, vehicleVelocity));
 		series2.getData().add(new XYChart.Data<>(strj, FL_WheelVelo));
 		
 		// set new Vehicle Velocity after find out temp*************************************
 		int temp = (int)(FL_WheelVelo);
 		temp -= (FL_Decel * .1 * 3.6);
 		tf10.setText(Integer.toString(temp));
-	
+		lb1.setText(message);
 	}
 		lineChart.getData().addAll(series1,series2);	
 		
 	}
+	
+	
+	
+	
+	
 	/*	double target=0;
 		double actual = Double.parseDouble(tf10.getText()); //Vehicle speed
 		double output=0;
@@ -220,8 +231,8 @@ public class MainController {
 	
 
 
-/*
-class Timer extends Thread
+
+class Timer extends Thread 
 {
 	public void run()
 	{
@@ -230,49 +241,49 @@ class Timer extends Thread
 		while(true)
 		{
 			
-			if (carOn == True)
-				ivjvehicleVelocityTxt.setEditable(false);
-			else
-				ivjvehicleVelocityTxt.setEditable(true);
+//			if (carOn == True)
+//				ivjvehicleVelocityTxt.setEditable(false);
+//			else
+//				ivjvehicleVelocityTxt.setEditable(true);
 			try {Thread.sleep(100);}catch(InterruptedException ie) {}
 			if (counter >= .05)
 			{
-				if (debug) ivjstatusWin.append("\nTime:" + counter);
-				if (carOn)
+//				if (debug) ivjstatusWin.append("\nTime:" + counter);
+//				if (carOn)
 				{
 					counter += .05;
 					calculate();
-					displayGauges();
+//					displayGauges();
 				}
 				else
 					counter = 0.0;
 			}
 			try {Thread.sleep(100);}catch(InterruptedException ie) {}
-			if ((counter >= .05) && (FL_pressureRelease == true))
-			{
-				ivjFL_pressureReleaseLbl.setBackground(java.awt.Color.darkGray);
+//			if ((counter >= .05) && (FL_pressureRelease == true))
+//			{
+//				ivjFL_pressureReleaseLbl.setBackground(java.awt.Color.darkGray);
+//			}
+//			if ((counter >= .05) && (FR_pressureRelease == true))
+//			{
+//				ivjFR_pressureReleaseLbl.setBackground(java.awt.Color.darkGray);
+//			}
+//			if ((counter >= .05) && (RL_pressureRelease == true))
+//			{
+//				ivjRL_pressureReleaseLbl.setBackground(java.awt.Color.darkGray);
+//			}
+//			if ((counter >= .05) && (RR_pressureRelease == true))
+//			{
+//				ivjRR_pressureReleaseLbl.setBackground(java.awt.Color.darkGray);
+//			}
+//			if ((carSpeed() < 1) || (carSpeed()> 180))
+//			{
+//				stopCar();
 			}
-			if ((counter >= .05) && (FR_pressureRelease == true))
-			{
-				ivjFR_pressureReleaseLbl.setBackground(java.awt.Color.darkGray);
-			}
-			if ((counter >= .05) && (RL_pressureRelease == true))
-			{
-				ivjRL_pressureReleaseLbl.setBackground(java.awt.Color.darkGray);
-			}
-			if ((counter >= .05) && (RR_pressureRelease == true))
-			{
-				ivjRR_pressureReleaseLbl.setBackground(java.awt.Color.darkGray);
-			}
-			if ((carSpeed() < 1) || (carSpeed()> 180))
-			{
-				stopCar();
-			}
-			if (!carOn) break;
+			if (FL_WheelVelo == 0) break;
 		}
-		stopCar();
+		//stopCar();
 	}
-}*/
+}
 
 
 
