@@ -20,9 +20,10 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class MainController {
+	
 	@FXML private RadioButton abson;
 	@FXML private RadioButton absoff;
-	@FXML private Label lb1;
+	@FXML private Label lb1 , lb2;
 	@FXML LineChart<String, Number> lineChart;
 	@FXML private Button set1;
 	@FXML private Button gas;
@@ -33,7 +34,8 @@ public class MainController {
 
 	@FXML LineChart<String, Number> lineChart1;
 
-
+// User variables
+	boolean carOn = false;
     
     
 	public void set1(ActionEvent event) throws Exception {
@@ -53,11 +55,68 @@ public class MainController {
 	//MiniPID class is used to simulate acceleration temperoraly. This will be replaced with model when the 'model class' is programed by Panda.
 	public void gas(ActionEvent event) {
 		String message="Simulating ABSOFF";
+		String PR = "Brake Pressure Release";
 		lb1.setText(message);
 		
-		lineChart.getData().removeAll();
+		//Initializing line chart
+		XYChart.Series<String, Number> series1 = new XYChart.Series<>();
+		XYChart.Series<String, Number> series2 = new XYChart.Series<>();
+		lineChart.getData().addAll(series1,series2);
+		series1.setName("Vehicle Speed");
+        series2.setName("Wheel Speed");
+        lineChart.setCreateSymbols(false);
 	
-		double target=0;
+		
+		
+		//User Variables*************************************************************
+		double FL_BrakeP = 0.0;
+		double FL_WheelVelo = 0.0;
+		double vehicleVelocity =0.0;
+		double FL_Decel = 0.0;
+		double FL_Threshold = 0.0;
+		boolean FL_pressureRelease = false;
+		boolean carOn = true;
+		tf10 = new TextField();
+		int xaxis = 0;
+		//**************************************************************************
+		
+		tf10.setText("200");
+
+		
+		
+		while(FL_WheelVelo >= 0) {
+		
+		
+		vehicleVelocity = Double.parseDouble(tf10.getText().trim());
+		
+		FL_WheelVelo = vehicleVelocity;
+		FL_Threshold = Double.parseDouble(tf11.getText().trim());
+		FL_BrakeP = 100/100;
+		FL_Decel = 3*FL_BrakeP;
+		if (FL_Decel > FL_Threshold)
+		{
+			// if wheels lock
+			FL_pressureRelease = true;
+			lb2.setText(PR);
+			FL_BrakeP = FL_Threshold / 3.0;
+			FL_Decel = FL_Threshold;
+		}
+		FL_WheelVelo -= (FL_Decel * .1 * 3.6);
+		xaxis++;
+		String strj = Integer.toString(xaxis);
+		series1.getData().add(new XYChart.Data<>(strj, 100));
+		series2.getData().add(new XYChart.Data<>(strj, FL_WheelVelo));
+		
+		// set new Vehicle Velocity after find out temp*************************************
+		int temp = (int)(FL_WheelVelo);
+		temp -= (FL_Decel * .1 * 3.6);
+		tf10.setText(Integer.toString(temp));
+	
+	}
+		lineChart.getData().addAll(series1,series2);	
+		
+	}
+	/*	double target=0;
 		double actual = Double.parseDouble(tf10.getText()); //Vehicle speed
 		double output=0;
 		double j = actual;
@@ -69,7 +128,7 @@ public class MainController {
         series2.setName("Wheel Speed");
         lineChart.setCreateSymbols(false);
 	    
-		
+		//while (true) {
 		for (int i = 0  ; i < 200; i++){
 			double r = 0; 
 			double s = Double.parseDouble(tf11.getText()); //Wheel Slip
@@ -88,9 +147,9 @@ public class MainController {
 				series2.getData().add(new XYChart.Data<>(strj, j));
 		
 		        
-			}
-		
-	}
+			//}
+	
+	}}*/	
 	
 	
 
@@ -151,16 +210,69 @@ public class MainController {
 			
 		        
 			}
+	}}
 		
 			
 	
 			
+		
+	
+	
+
+
+/*
+class Timer extends Thread
+{
+	public void run()
+	{
+		double counter = 0;
+		counter += .05;
+		while(true)
+		{
+			
+			if (carOn == True)
+				ivjvehicleVelocityTxt.setEditable(false);
+			else
+				ivjvehicleVelocityTxt.setEditable(true);
+			try {Thread.sleep(100);}catch(InterruptedException ie) {}
+			if (counter >= .05)
+			{
+				if (debug) ivjstatusWin.append("\nTime:" + counter);
+				if (carOn)
+				{
+					counter += .05;
+					calculate();
+					displayGauges();
+				}
+				else
+					counter = 0.0;
+			}
+			try {Thread.sleep(100);}catch(InterruptedException ie) {}
+			if ((counter >= .05) && (FL_pressureRelease == true))
+			{
+				ivjFL_pressureReleaseLbl.setBackground(java.awt.Color.darkGray);
+			}
+			if ((counter >= .05) && (FR_pressureRelease == true))
+			{
+				ivjFR_pressureReleaseLbl.setBackground(java.awt.Color.darkGray);
+			}
+			if ((counter >= .05) && (RL_pressureRelease == true))
+			{
+				ivjRL_pressureReleaseLbl.setBackground(java.awt.Color.darkGray);
+			}
+			if ((counter >= .05) && (RR_pressureRelease == true))
+			{
+				ivjRR_pressureReleaseLbl.setBackground(java.awt.Color.darkGray);
+			}
+			if ((carSpeed() < 1) || (carSpeed()> 180))
+			{
+				stopCar();
+			}
+			if (!carOn) break;
 		}
-	
-		
+		stopCar();
 	}
-	
-	
+}*/
 
 
 
