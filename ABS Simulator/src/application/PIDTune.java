@@ -37,7 +37,7 @@ public class PIDTune {
 	miniPID1.setSetpoint(target);
 	
 	
-	
+	lineChart3.getData().clear();
 	XYChart.Series<String, Number> series1 = new XYChart.Series<>();
 
 	lineChart3.getData().addAll(series1);
