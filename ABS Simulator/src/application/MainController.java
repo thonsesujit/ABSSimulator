@@ -30,8 +30,8 @@ import javafx.stage.Stage;
 
 public class MainController implements ActionListener {
 	
-	@FXML private RadioButton abson;
-	@FXML private RadioButton absoff;
+	@FXML private RadioButton rb1;
+	@FXML private RadioButton rb2;
 	@FXML private Label lb1 , lb2, lb3 , lb4, lb5, lb21, ABS;
 	@FXML LineChart<String, Number> lineChart;
 	@FXML private Button set1;
@@ -47,6 +47,7 @@ public class MainController implements ActionListener {
     
     
 	public void set1(ActionEvent event) throws Exception {
+		
 		String message1 ="Setting";
 				lb1.setText(message1);
 		Stage primaryStage = new Stage();
@@ -62,6 +63,7 @@ public class MainController implements ActionListener {
 	}
 	//MiniPID class is used to simulate acceleration temperoraly. This will be replaced with model when the 'model class' is programed by Panda.
 	public void gas(ActionEvent event) {
+		
 		
 		  //getting initial data
 				vehicleVelocity = Double.parseDouble(tf10.getText().trim());
@@ -82,7 +84,9 @@ public class MainController implements ActionListener {
 	
 
 	public void brake(ActionEvent event) {
-		String message="Simulating ABSON";
+		simulateABSOFF = true;
+		
+		/*String message="Simulating ABSON";
 		lb1.setText(message);
 		MiniPID miniPID1;
 		MiniPID miniPID2;
@@ -131,7 +135,7 @@ public class MainController implements ActionListener {
 				series1.getData().add(new XYChart.Data<>(strj, actual));
 			
 			}
-	}
+*/	}
 	
 	
 	
@@ -164,7 +168,26 @@ public class MainController implements ActionListener {
 		boolean FL_pressureRelease = false;
 		boolean carStopped = false;
 		int xplot = 0;
+		boolean simulateABSOFF = false;
+		//seting PID
+		
+		public void radioSelect(ActionEvent event) {
+			String message = "";
+			if (rb1.isSelected()) {
+				simulateABSOFF = true;
+				message += rb1.getText() + "\n";
+				
+			}
+			if (rb2.isSelected()) {
+				simulateABSOFF = false;
+				message += rb2.getText() + "\n";
+				
+			}
+			lb1.setText(message);
+		}
+
 	
+
 			
 		
 				
@@ -177,9 +200,19 @@ public class MainController implements ActionListener {
 
 	@Override
 	public void actionPerformed(java.awt.event.ActionEvent arg0) {
-
+		MiniPID miniPID;
+		miniPID = new MiniPID(0.05, 0.0, 0);
+		//miniPID.setOutputLimits(10);
+		//miniPID.setMaxIOutput(2);
+		//miniPID.setOutputRampRate(3);
+		//miniPID.setOutputFilter(.3);
+		double target=0;
+		double actual=0; 
+		double output=0;
+		miniPID.setSetpoint(0);
+		miniPID.setSetpoint(target);
 		
-		if (FL_WheelVelo_ms>0) {
+		if (vehicleVelocity_ms>0) {
 			Task clTask = new Task<Void>() {
 				@Override
 				public Void call() {
@@ -221,18 +254,37 @@ public class MainController implements ActionListener {
 								FL_WheelVelo_ms = vehicleVelocity_ms;
 							}
 
+						
+							
+							
+							if(!simulateABSOFF){
 							if (slipRatio > 0.1) {
 								// if wheels lock
 								FL_pressureRelease = true;
 								FL_BrakeP = FL_Threshold / 3.0;
 								FL_Decel = FL_Threshold;
+								
+								MiniPID miniPID;
+								miniPID = new MiniPID(0.05, 0.001, 0);
+								//miniPID.setOutputLimits(10);
+								//miniPID.setMaxIOutput(2);
+								//miniPID.setOutputRampRate(3);
+								//miniPID.setOutputFilter(.3);
+								 
+								double output=0;
+								miniPID.setSetpoint(0);
+								miniPID.setSetpoint(vehicleVelocity_ms);
+								miniPID.setSetpoint(output);
+								output = miniPID.getOutput(FL_WheelVelo_ms, vehicleVelocity_ms);
+								FL_WheelVelo_ms = FL_WheelVelo_ms + output;
+								
 								FL_WheelVelo_ms = vehicleVelocity_ms;
 								vehicleVelocity_ms -= FL_Decel;
 								FL_WheelVelo_ms -= FL_Decel;
 								if(FL_WheelVelo_ms<0) {
 									FL_WheelVelo_ms=0;
 								}
-								
+							}
 								ABS.setText("ABS");
 								series1.getData().add(new XYChart.Data<>(Integer.toString(xplot), vehicleVelocity_ms));
 								series2.getData().add(new XYChart.Data<>(Integer.toString(xplot++), FL_WheelVelo_ms));
