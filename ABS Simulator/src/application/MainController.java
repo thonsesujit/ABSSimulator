@@ -179,158 +179,88 @@ public class MainController implements ActionListener {
 	public void actionPerformed(java.awt.event.ActionEvent arg0) {
 
 		
-		Task clTask = new Task<Void>() {
-			@Override
-			public Void call() {
-				Platform.runLater(new Runnable() {
-					@Override
-					public void run() {
-						// System.out.println("gpredicted " + glucogon);
-						
-						//getting live data
-						FL_BrakeP = breakPedal.getValue();
-						lb4.setText(Double.toString(FL_BrakeP));
-						//********
-						
-						
-						
-						//calculating variables
-						FL_Decel = 9.81*(Double.parseDouble(tf11.getText().trim()))* (FL_BrakeP/50);
-						lb3.setText(Double.toString(FL_Decel));
-						FL_Threshold = 9.81*(Double.parseDouble(tf11.getText().trim()));
-						lb21.setText(Double.toString(FL_Threshold));
-						slipRatio = ((vehicleVelocity_ms - FL_WheelVelo_ms)/vehicleVelocity_ms);
-						lb5.setText(Double.toString(slipRatio));
-						//*************
-				        
-						//**********decelerating
-				        if(FL_Decel > FL_Threshold) {
-				        vehicleVelocity_ms -= FL_Threshold;
-				        }
-				        else {
-				        	vehicleVelocity_ms -= FL_Decel;
-				        }
-				        
-				        FL_WheelVelo_ms -=FL_Decel;
-				       //*******back to normal when brake is released
-				        if(slipRatio > 0 & FL_Decel < FL_Threshold) {
-				        	FL_WheelVelo_ms = vehicleVelocity_ms;
-				        }
-				        
-				        
-				        if (slipRatio > 0.2)
-						{
-							// if wheels lock
-							FL_pressureRelease = true;
-							FL_BrakeP = FL_Threshold / 3.0;
-							FL_Decel = FL_Threshold;
-							FL_WheelVelo_ms = vehicleVelocity_ms;
-							vehicleVelocity_ms -= FL_Decel;
-							FL_WheelVelo_ms -=FL_Decel;
-							ABS.setText("ABS");
-							series1.getData().add(new XYChart.Data<>(Integer.toString(xplot), vehicleVelocity_ms));
-							series2.getData().add(new XYChart.Data<>(Integer.toString(xplot++), FL_WheelVelo_ms));	
-						}
+		if (FL_WheelVelo_ms>0) {
+			Task clTask = new Task<Void>() {
+				@Override
+				public Void call() {
+					Platform.runLater(new Runnable() {
+						@Override
+						public void run() {
+							// System.out.println("gpredicted " + glucogon);
 
-				        if (slipRatio > 0.2)
-						{
-							// if wheels lock
-							FL_pressureRelease = true;
-							FL_BrakeP = FL_Threshold / 3.0;
-							FL_Decel = FL_Threshold;
-							FL_WheelVelo_ms = vehicleVelocity_ms;
-							vehicleVelocity_ms -= FL_Decel;
-							FL_WheelVelo_ms -=FL_Decel;
-							ABS.setText("ABS");
-							series1.getData().add(new XYChart.Data<>(Integer.toString(xplot), vehicleVelocity_ms));
-							series2.getData().add(new XYChart.Data<>(Integer.toString(xplot++), FL_WheelVelo_ms));	
-						}
+							//getting live data
+							FL_BrakeP = breakPedal.getValue();
+							lb4.setText(Double.toString(FL_BrakeP));
+							//********
 
-				        if (slipRatio > 0.2)
-						{
-							// if wheels lock
-							FL_pressureRelease = true;
-							FL_BrakeP = FL_Threshold / 3.0;
-							FL_Decel = FL_Threshold;
-							FL_WheelVelo_ms = vehicleVelocity_ms;
-							vehicleVelocity_ms -= FL_Decel;
-							FL_WheelVelo_ms -=FL_Decel;
-							ABS.setText("ABS");
-							series1.getData().add(new XYChart.Data<>(Integer.toString(xplot), vehicleVelocity_ms));
-							series2.getData().add(new XYChart.Data<>(Integer.toString(xplot++), FL_WheelVelo_ms));	
-						}
+							//calculating variables
+							FL_Decel = 9.81 * (Double.parseDouble(tf11.getText().trim())) * (FL_BrakeP / 25);
+							lb3.setText(Double.toString(FL_Decel));
+							FL_Threshold = 9.81 * (Double.parseDouble(tf11.getText().trim()));
+							lb21.setText(Double.toString(FL_Threshold));
+							slipRatio = ((vehicleVelocity_ms - FL_WheelVelo_ms) / vehicleVelocity_ms);
+							lb5.setText(Double.toString(slipRatio));
+							//*************
 
-				        if (slipRatio > 0.2)
-						{
-							// if wheels lock
-							FL_pressureRelease = true;
-							FL_BrakeP = FL_Threshold / 3.0;
-							FL_Decel = FL_Threshold;
-							FL_WheelVelo_ms = vehicleVelocity_ms;
-							vehicleVelocity_ms -= FL_Decel;
-							FL_WheelVelo_ms -=FL_Decel;
-							ABS.setText("ABS");
-							series1.getData().add(new XYChart.Data<>(Integer.toString(xplot), vehicleVelocity_ms));
-							series2.getData().add(new XYChart.Data<>(Integer.toString(xplot++), FL_WheelVelo_ms));	
-						}
-
-				        if (slipRatio > 0.2)
-						{
-							// if wheels lock
-							FL_pressureRelease = true;
-							FL_BrakeP = FL_Threshold / 3.0;
-							FL_Decel = FL_Threshold;
-							FL_WheelVelo_ms = vehicleVelocity_ms;
-							vehicleVelocity_ms -= FL_Decel;
-							FL_WheelVelo_ms -=FL_Decel;
-							ABS.setText("ABS");
-							series1.getData().add(new XYChart.Data<>(Integer.toString(xplot), vehicleVelocity_ms));
-							series2.getData().add(new XYChart.Data<>(Integer.toString(xplot++), FL_WheelVelo_ms));	
-						}
-
-				        if (slipRatio > 0.2)
-						{
-							// if wheels lock
-							FL_pressureRelease = true;
-							FL_BrakeP = FL_Threshold / 3.0;
-							FL_Decel = FL_Threshold;
-							FL_WheelVelo_ms = vehicleVelocity_ms;
-							vehicleVelocity_ms -= FL_Decel;
-							FL_WheelVelo_ms -=FL_Decel;
-							ABS.setText("ABS");
-							series1.getData().add(new XYChart.Data<>(Integer.toString(xplot), vehicleVelocity_ms));
-							series2.getData().add(new XYChart.Data<>(Integer.toString(xplot++), FL_WheelVelo_ms));	
-						}
-				        
-				        //ABS.setText("");
-				        lb2.setText(Double.toString(FL_WheelVelo_ms));
-				        lineChart.setCreateSymbols(false);
-						series1.getData().add(new XYChart.Data<>(Integer.toString(xplot), vehicleVelocity_ms));
-						
-						series2.getData().add(new XYChart.Data<>(Integer.toString(xplot++), FL_WheelVelo_ms));
-						
-						
-						
-						if(!isAdded) {
-							lineChart.getData().addAll(series1,series2);
-							series1.setName("Vehicle Speed");
-						    series2.setName("Wheel Speed");
-							isAdded = true;
-						}
-						if(vehicleVelocity_ms <= 0) {
-							carStopped =true;
+							//**********decelerating
+							if (FL_Decel > FL_Threshold) {
+								vehicleVelocity_ms -= FL_Threshold;
+							} else {
+								vehicleVelocity_ms -= FL_Decel;
+							}
+							if(vehicleVelocity_ms<0) {
+								vehicleVelocity_ms=0;
+							}
 							
-							lb4.setText("Zero Reached");
-						}
-						
-				
-					}
-				});
+							FL_WheelVelo_ms -= FL_Decel;
+							if(FL_WheelVelo_ms<0) {
+								FL_WheelVelo_ms=0;
+							}
+							//*******back to normal when brake is released
+							if (slipRatio > 0 & FL_Decel < FL_Threshold) {
+								FL_WheelVelo_ms = vehicleVelocity_ms;
+							}
 
-				return null;
-			}
-		};
-		new Thread(clTask).start();
+							if (slipRatio > 0.1) {
+								// if wheels lock
+								FL_pressureRelease = true;
+								FL_BrakeP = FL_Threshold / 3.0;
+								FL_Decel = FL_Threshold;
+								FL_WheelVelo_ms = vehicleVelocity_ms;
+								vehicleVelocity_ms -= FL_Decel;
+								FL_WheelVelo_ms -= FL_Decel;
+								if(FL_WheelVelo_ms<0) {
+									FL_WheelVelo_ms=0;
+								}
+								
+								ABS.setText("ABS");
+								series1.getData().add(new XYChart.Data<>(Integer.toString(xplot), vehicleVelocity_ms));
+								series2.getData().add(new XYChart.Data<>(Integer.toString(xplot++), FL_WheelVelo_ms));
+							}
+
+							//ABS.setText("");
+							lb2.setText(Double.toString(FL_WheelVelo_ms));
+							lineChart.setCreateSymbols(false);
+							series1.getData().add(new XYChart.Data<>(Integer.toString(xplot), vehicleVelocity_ms));
+
+							series2.getData().add(new XYChart.Data<>(Integer.toString(xplot++), FL_WheelVelo_ms));
+
+							if (!isAdded) {
+								lineChart.getData().addAll(series1, series2);
+								series1.setName("Vehicle Speed");
+								series2.setName("Wheel Speed");
+								isAdded = true;
+							}
+				
+
+						}
+					});
+
+					return null;
+				}
+			};
+			new Thread(clTask).start();
+		}
 		
 
 		//System.out.println("hey");
