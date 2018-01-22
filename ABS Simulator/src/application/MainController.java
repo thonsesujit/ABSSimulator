@@ -200,7 +200,7 @@ public class MainController implements ActionListener {
 
 	@Override
 	public void actionPerformed(java.awt.event.ActionEvent arg0) {
-		MiniPID miniPID;
+		/*MiniPID miniPID;
 		miniPID = new MiniPID(0.05, 0.0, 0);
 		//miniPID.setOutputLimits(10);
 		//miniPID.setMaxIOutput(2);
@@ -210,7 +210,7 @@ public class MainController implements ActionListener {
 		double actual=0; 
 		double output=0;
 		miniPID.setSetpoint(0);
-		miniPID.setSetpoint(target);
+		miniPID.setSetpoint(target);*/
 		
 		if (vehicleVelocity_ms>0) {
 			Task clTask = new Task<Void>() {
@@ -253,10 +253,9 @@ public class MainController implements ActionListener {
 							if (slipRatio > 0 & FL_Decel < FL_Threshold) {
 								FL_WheelVelo_ms = vehicleVelocity_ms;
 							}
-
-						
-							
-							
+							ABS.setText("ABS");
+							series1.getData().add(new XYChart.Data<>(Integer.toString(xplot), vehicleVelocity_ms));
+							series2.getData().add(new XYChart.Data<>(Integer.toString(xplot++), FL_WheelVelo_ms));
 							if(!simulateABSOFF){
 							if (slipRatio > 0.1) {
 								// if wheels lock
@@ -264,39 +263,38 @@ public class MainController implements ActionListener {
 								FL_BrakeP = FL_Threshold / 3.0;
 								FL_Decel = FL_Threshold;
 								
-								MiniPID miniPID;
-								miniPID = new MiniPID(0.05, 0.001, 0);
-								//miniPID.setOutputLimits(10);
-								//miniPID.setMaxIOutput(2);
-								//miniPID.setOutputRampRate(3);
-								//miniPID.setOutputFilter(.3);
-								 
-								double output=0;
-								miniPID.setSetpoint(0);
-								miniPID.setSetpoint(vehicleVelocity_ms);
-								miniPID.setSetpoint(output);
-								output = miniPID.getOutput(FL_WheelVelo_ms, vehicleVelocity_ms);
-								FL_WheelVelo_ms = FL_WheelVelo_ms + output;
+//								MiniPID miniPID;
+//								miniPID = new MiniPID(0.05, 0.001, 0);
+//								//miniPID.setOutputLimits(10);
+//								//miniPID.setMaxIOutput(2);
+//								//miniPID.setOutputRampRate(3);
+//								//miniPID.setOutputFilter(.3);
+//								 
+//								double output=0;
+//								miniPID.setSetpoint(0);
+//								miniPID.setSetpoint(vehicleVelocity_ms);
+//								miniPID.setSetpoint(output);
+//								output = miniPID.getOutput(FL_WheelVelo_ms, vehicleVelocity_ms);
+//								FL_WheelVelo_ms = FL_WheelVelo_ms + output;
 								
 								FL_WheelVelo_ms = vehicleVelocity_ms;
 								vehicleVelocity_ms -= FL_Decel;
 								FL_WheelVelo_ms -= FL_Decel;
 								if(FL_WheelVelo_ms<0) {
 									FL_WheelVelo_ms=0;
-								}
-							}
+									}
 								ABS.setText("ABS");
 								series1.getData().add(new XYChart.Data<>(Integer.toString(xplot), vehicleVelocity_ms));
 								series2.getData().add(new XYChart.Data<>(Integer.toString(xplot++), FL_WheelVelo_ms));
-							}
+							}}
 
 							//ABS.setText("");
 							lb2.setText(Double.toString(FL_WheelVelo_ms));
 							lineChart.setCreateSymbols(false);
-							series1.getData().add(new XYChart.Data<>(Integer.toString(xplot), vehicleVelocity_ms));
+							/*series1.getData().add(new XYChart.Data<>(Integer.toString(xplot), vehicleVelocity_ms));
 
 							series2.getData().add(new XYChart.Data<>(Integer.toString(xplot++), FL_WheelVelo_ms));
-
+*/
 							if (!isAdded) {
 								lineChart.getData().addAll(series1, series2);
 								series1.setName("Vehicle Speed");
